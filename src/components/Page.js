@@ -1,3 +1,4 @@
+import { useState } from "react"; 
 import styled from "styled-components";
 import JobListing from './JobListing';
 import FilterBar from './FilterBar';
@@ -23,19 +24,45 @@ const StyledContainer = styled.div`
     }
 `;
 
-export default function Page(props) {
+export default function Page({ JobListings }) {
+    const [filters, setFilters] = useState([]); 
+    // Adds a filter to the filter list. 
+    const addFilter = (text) => {
+        if(filters.indexOf(text) === -1) {
+            setFilters([...filters, text]);
+        }
+    }
+    // Removes a filter from the filter list.
+    const deleteFilter = (text) => {
+        if(filters.indexOf(text) !== -1) {
+            setFilters(filters.filter(f => f !== text));
+        }
+    }
+    // Clears the filters in the filter list. 
+    const clearFilters = () => {
+        setFilters([]);
+    }
+
     return(
         <StyledContainer>
-            <header></header>
+            <header />
             <main>
-                <FilterBar />
-                {props.JobListings.map(listing => {
-                    return (
-                        <JobListing 
-                            key={listing.id}
-                            listingDetails={listing}
-                        />
-                    )
+                <FilterBar 
+                    filters={filters} 
+                    deleteFilter={deleteFilter} 
+                    clearFilters={clearFilters} 
+                />
+                {JobListings.map(listing => {
+                    const requirements = [listing.role, listing.level, ...listing.languages, ...listing.tools];
+                    if(filters.every( filter => requirements.includes(filter))) {
+                        return (
+                            <JobListing 
+                                key={listing.id}
+                                addFilter={addFilter}
+                                listingDetails={listing}
+                            />
+                        )
+                    } else return null;
                 })}
             </main>
         </StyledContainer>

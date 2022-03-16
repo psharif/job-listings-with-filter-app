@@ -144,7 +144,7 @@ const StyledSection = styled.div`
     }
 `;
 
-export default function JobListing(props) {
+export default function JobListing({listingDetails, filters, addFilter }) {
     const { company, 
             logo, 
             new: isNew, 
@@ -154,8 +154,12 @@ export default function JobListing(props) {
             contract, 
             location, 
             languages, 
-            tools } = props.listingDetails; 
-    const filters = [role, level, ...languages, ...tools]; 
+            tools } = listingDetails; 
+    const requirements = [role, level, ...languages, ...tools]; 
+
+    const addItem = (evt) => {
+        addFilter(evt.target.textContent);
+    }
 
     return(
         <StyledSection>
@@ -190,7 +194,7 @@ export default function JobListing(props) {
             <div className="separator"/>
             <section className="filters">
                 <ul className="filter-list">
-                    {filters.map(filter => <li className="filter-item">{filter}</li>)}
+                    {requirements.map(requirement => <li className="filter-item" onClick={addItem} key={requirement}>{requirement}</li>)}
                 </ul>
             </section>
         </StyledSection>

@@ -65,38 +65,28 @@ const StyledSection = styled.div`
     }
 `;
 
-export default function FilterBar(props) {
+export default function FilterBar({ filters, deleteFilter, clearFilters }) {
+    const deleteItem = (evt) => {
+        deleteFilter(evt.target.parentNode.parentNode.textContent);
+    }
+
     return(
         <StyledSection>
             <section className="filters">
                 <ul className="filter-list">
-                    <li className="filter-item">
-                        <p>React</p>
-                        <button>
-                            <img src="../../images/icon-remove.svg" alt="remove-icon"/>
-                        </button>
-                    </li>
-                    <li className="filter-item">
-                        <p>Python</p>
-                        <button>
-                            <img src="../../images/icon-remove.svg" alt="remove-icon"/>
-                        </button>
-                    </li>
-                    <li className="filter-item">
-                        <p>Midweight</p>
-                        <button>
-                            <img src="../../images/icon-remove.svg" alt="remove-icon"/>
-                        </button>
-                    </li>
-                    <li className="filter-item">
-                        <p>Fullstack</p>
-                        <button>
-                            <img src="../../images/icon-remove.svg" alt="remove-icon"/>
-                        </button>
-                    </li>
+                    {filters.map(filter => {
+                        return (
+                            <li className="filter-item" key={filter}>
+                                <p>{filter}</p>
+                                <button onClick={deleteItem}>
+                                    <img src="../../images/icon-remove.svg" alt="remove-icon"/>
+                                </button>
+                            </li>
+                        );
+                    })}
                 </ul>
             </section>
-            <button className="clear-btn">Clear</button>
+            <button className="clear-btn" onClick={() => clearFilters()}>Clear</button>
         </StyledSection>
     );
 }
