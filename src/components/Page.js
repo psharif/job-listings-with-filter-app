@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import JobListing from './JobListing';
+import FilterBar from './FilterBar';
 
 const StyledContainer = styled.div`
     width: 100vw; 
     min-height: 100vh; 
     background-color: hsl(180, 52%, 96%);
+    font-family: 'Spartan', sans-serif;
     header {
         width: 100%; 
         height: 150px;
@@ -24,7 +27,17 @@ export default function Page(props) {
     return(
         <StyledContainer>
             <header></header>
-            <main>{props.children}</main>
+            <main>
+                <FilterBar />
+                {props.JobListings.map(listing => {
+                    return (
+                        <JobListing 
+                            key={listing.id}
+                            listingDetails={listing}
+                        />
+                    )
+                })}
+            </main>
         </StyledContainer>
     );
 }
