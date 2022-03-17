@@ -67,7 +67,7 @@ const StyledSection = styled.div`
 
 export default function FilterBar({ filters, deleteFilter, clearFilters }) {
     const deleteItem = (evt) => {
-        deleteFilter(evt.target.parentNode.parentNode.textContent);
+        deleteFilter(evt.currentTarget.parentNode.textContent);
     }
 
     return(

@@ -1,4 +1,5 @@
-import { useState } from "react"; 
+import { useState, useContext } from "react"; 
+import { DispatchContext, JobListingContext } from '../context/jobListings.context';
 import styled from "styled-components";
 import JobListing from './JobListing';
 import FilterBar from './FilterBar';
@@ -25,22 +26,20 @@ const StyledContainer = styled.div`
 `;
 
 export default function Page({ JobListings }) {
-    const [filters, setFilters] = useState([]); 
+    const dispatch = useContext(DispatchContext);
+    const filters = useContext(JobListingContext);
+    
     // Adds a filter to the filter list. 
     const addFilter = (text) => {
-        if(filters.indexOf(text) === -1) {
-            setFilters([...filters, text]);
-        }
+        dispatch({ type: "ADD_FILTER", text })
     }
     // Removes a filter from the filter list.
     const deleteFilter = (text) => {
-        if(filters.indexOf(text) !== -1) {
-            setFilters(filters.filter(f => f !== text));
-        }
+        dispatch({ type: "DELETE_FILTER", text });
     }
     // Clears the filters in the filter list. 
     const clearFilters = () => {
-        setFilters([]);
+        dispatch({type: "CLEAR_FILTERS"});
     }
 
     return(
